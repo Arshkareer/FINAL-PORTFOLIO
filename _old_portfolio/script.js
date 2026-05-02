@@ -300,18 +300,45 @@ async function handleUpdateResume(e) {
         return;
     }
     
-    // Convert PDF to base64 and store in localStorage
+    // Convert PDF to base64 and store in localStorage (fallback)
     const reader = new FileReader();
-    reader.onload = function(event) {
-        localStorage.setItem('portfolioResume', event.target.result);
+    reader.onload = async function(event) {
+        const resumeData = event.target.result;
         
-        // Update the download button immediately
-        const resumeBtn = document.getElementById('resumeDownloadBtn');
-        if (resumeBtn) {
-            resumeBtn.href = event.target.result;
+        // Save to localStorage as backup
+        localStorage.setItem('portfolioResume', resumeData);
+        
+        // Save to Firebase if enabled
+        if (isFirebaseEnabled) {
+            try {
+                // Store resume URL in Firestore
+                await db.collection('settings').doc('resume').set({
+                    data: resumeData,
+                    updatedAt: new Date().toISOString(),
+                    fileName: resumeFile.name
+                });
+                console.log('✅ Resume saved to Firebase');
+                
+                // Update the download button immediately
+                const resumeBtn = document.getElementById('resumeDownloadBtn');
+                if (resumeBtn) {
+                    resumeBtn.href = resumeData;
+                }
+                
+                alert('✅ Resume updated successfully! Synced to all devices!');
+            } catch (error) {
+                console.error('Error saving resume to Firebase:', error);
+                alert('⚠️ Resume saved locally but not synced to cloud. Check your internet connection.');
+            }
+        } else {
+            // Update the download button immediately
+            const resumeBtn = document.getElementById('resumeDownloadBtn');
+            if (resumeBtn) {
+                resumeBtn.href = resumeData;
+            }
+            alert('✅ Resume updated successfully! (Local only - Firebase offline)');
         }
         
-        alert('✅ Resume updated successfully! The download button now uses your new resume.');
         e.target.reset();
     };
     
@@ -763,6 +790,24 @@ async function loadData() {
     }
     
     // Load custom resume if available
+    if (isFirebaseEnabled) {
+        try {
+            const resumeDoc = await db.collection('settings').doc('resume').get();
+            if (resumeDoc.exists) {
+                const resumeData = resumeDoc.data().data;
+                localStorage.setItem('portfolioResume', resumeData);
+                const resumeBtn = document.getElementById('resumeDownloadBtn');
+                if (resumeBtn) {
+                    resumeBtn.href = resumeData;
+                }
+                console.log('✅ Resume loaded from Firebase');
+            }
+        } catch (error) {
+            console.error('Error loading resume from Firebase:', error);
+        }
+    }
+    
+    // Fallback to localStorage if Firebase didn't have resume
     const savedResume = localStorage.getItem('portfolioResume');
     if (savedResume) {
         const resumeBtn = document.getElementById('resumeDownloadBtn');
@@ -968,5 +1013,20 @@ function setupRealtimeListeners() {
         updateDataCounts();
     }, (error) => {
         console.error('Error listening to certificates:', error);
+    });
+    
+    // Listen for resume changes
+    db.collection('settings').doc('resume').onSnapshot((doc) => {
+        if (doc.exists) {
+            console.log('🔔 Resume updated in Firebase!');
+            const resumeData = doc.data().data;
+            localStorage.setItem('portfolioResume', resumeData);
+            const resumeBtn = document.getElementById('resumeDownloadBtn');
+            if (resumeBtn) {
+                resumeBtn.href = resumeData;
+            }
+        }
+    }, (error) => {
+        console.error('Error listening to resume:', error);
     });
 }
