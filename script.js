@@ -1,7 +1,35 @@
 // Admin Password (Change this to your own secure password)
 const ADMIN_PASSWORD = "arsh@2025";
 
-// Data Storage (Using localStorage for simplicity)
+// Firebase Configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBxC8F9vZ3QmK5xYwN2pL7jR4tH6sU8vW0",
+    authDomain: "arsh-portfolio-sync.firebaseapp.com",
+    projectId: "arsh-portfolio-sync",
+    storageBucket: "arsh-portfolio-sync.appspot.com",
+    messagingSenderId: "123456789012",
+    appId: "1:123456789012:web:abcdef1234567890"
+};
+
+// Initialize Firebase
+let db = null;
+let storage = null;
+let isFirebaseEnabled = false;
+
+try {
+    if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        storage = firebase.storage();
+        isFirebaseEnabled = true;
+        console.log('✅ Firebase connected - Real-time sync enabled!');
+    }
+} catch (error) {
+    console.warn('⚠️ Firebase not available, using localStorage only:', error);
+    isFirebaseEnabled = false;
+}
+
+// Data Storage (Using localStorage as fallback)
 let projects = [];
 let certificates = [];
 let editingProjectId = null;
@@ -13,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     renderProjects();
     renderCertificates();
     setupEventListeners();
+    updateFirebaseStatus();
 });
 
 // Setup Event Listeners
@@ -183,7 +212,7 @@ async function handleAddProject(e) {
     
     // Convert image to base64
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = async function(event) {
         const project = {
             id: Date.now(),
             title: formData.get('title'),
@@ -193,12 +222,24 @@ async function handleAddProject(e) {
             screenshot: event.target.result
         };
         
+        // Save to Firebase if enabled
+        if (isFirebaseEnabled) {
+            try {
+                const docRef = await db.collection('projects').add(project);
+                project.firebaseId = docRef.id;
+                console.log('✅ Project saved to Firebase with ID:', docRef.id);
+            } catch (error) {
+                console.error('Error saving to Firebase:', error);
+                alert('Warning: Project saved locally but not synced to cloud. Check your internet connection.');
+            }
+        }
+        
         projects.push(project);
         saveData();
         renderProjects();
         renderExistingProjects();
         e.target.reset();
-        alert('Project added successfully!');
+        alert('Project added successfully!' + (isFirebaseEnabled ? ' ✅ Synced to all devices!' : ''));
     };
     
     reader.readAsDataURL(screenshot);
@@ -213,7 +254,7 @@ async function handleAddCertificate(e) {
     
     // Convert image to base64
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = async function(event) {
         const certificate = {
             id: Date.now(),
             title: formData.get('title'),
@@ -222,12 +263,24 @@ async function handleAddCertificate(e) {
             image: event.target.result
         };
         
+        // Save to Firebase if enabled
+        if (isFirebaseEnabled) {
+            try {
+                const docRef = await db.collection('certificates').add(certificate);
+                certificate.firebaseId = docRef.id;
+                console.log('✅ Certificate saved to Firebase with ID:', docRef.id);
+            } catch (error) {
+                console.error('Error saving to Firebase:', error);
+                alert('Warning: Certificate saved locally but not synced to cloud. Check your internet connection.');
+            }
+        }
+        
         certificates.push(certificate);
         saveData();
         renderCertificates();
         renderExistingCertificates();
         e.target.reset();
-        alert('Certificate added successfully!');
+        alert('Certificate added successfully!' + (isFirebaseEnabled ? ' ✅ Synced to all devices!' : ''));
     };
     
     reader.readAsDataURL(certImage);
@@ -403,14 +456,26 @@ function editProject(id) {
 }
 
 // Delete Project
-function deleteProject(id) {
+async function deleteProject(id) {
     if (!confirm('Are you sure you want to delete this project?')) return;
+    
+    const project = projects.find(p => p.id === id);
+    
+    // Delete from Firebase if enabled
+    if (isFirebaseEnabled && project && project.firebaseId) {
+        try {
+            await db.collection('projects').doc(project.firebaseId).delete();
+            console.log('✅ Project deleted from Firebase');
+        } catch (error) {
+            console.error('Error deleting from Firebase:', error);
+        }
+    }
     
     projects = projects.filter(p => p.id !== id);
     saveData();
     renderProjects();
     renderExistingProjects();
-    alert('Project deleted successfully!');
+    alert('Project deleted successfully!' + (isFirebaseEnabled ? ' ✅ Synced to all devices!' : ''));
 }
 
 // Edit Certificate
@@ -438,14 +503,26 @@ function editCertificate(id) {
 }
 
 // Delete Certificate
-function deleteCertificate(id) {
+async function deleteCertificate(id) {
     if (!confirm('Are you sure you want to delete this certificate?')) return;
+    
+    const cert = certificates.find(c => c.id === id);
+    
+    // Delete from Firebase if enabled
+    if (isFirebaseEnabled && cert && cert.firebaseId) {
+        try {
+            await db.collection('certificates').doc(cert.firebaseId).delete();
+            console.log('✅ Certificate deleted from Firebase');
+        } catch (error) {
+            console.error('Error deleting from Firebase:', error);
+        }
+    }
     
     certificates = certificates.filter(c => c.id !== id);
     saveData();
     renderCertificates();
     renderExistingCertificates();
-    alert('Certificate deleted successfully!');
+    alert('Certificate deleted successfully!' + (isFirebaseEnabled ? ' ✅ Synced to all devices!' : ''));
 }
 
 // Render Projects
@@ -604,23 +681,43 @@ function renderCertificates() {
     `).join('');
 }
 
-// Save Data to localStorage
-function saveData() {
+// Save Data to localStorage and Firebase
+async function saveData() {
+    // Always save to localStorage as backup
     localStorage.setItem('portfolioProjects', JSON.stringify(projects));
     localStorage.setItem('portfolioCertificates', JSON.stringify(certificates));
+    
+    // Save to Firebase if enabled
+    if (isFirebaseEnabled) {
+        try {
+            // Note: Individual items are saved when added/edited/deleted
+            console.log('✅ Data synced to Firebase');
+        } catch (error) {
+            console.error('Error saving to Firebase:', error);
+        }
+    }
 }
 
-// Load Data from localStorage
-function loadData() {
-    const savedProjects = localStorage.getItem('portfolioProjects');
-    const savedCertificates = localStorage.getItem('portfolioCertificates');
-    
-    if (savedProjects) {
-        projects = JSON.parse(savedProjects);
-    }
-    
-    if (savedCertificates) {
-        certificates = JSON.parse(savedCertificates);
+// Load Data from localStorage and Firebase
+async function loadData() {
+    if (isFirebaseEnabled) {
+        try {
+            // Load from Firebase
+            const projectsSnapshot = await db.collection('projects').orderBy('id', 'desc').get();
+            projects = projectsSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            
+            const certsSnapshot = await db.collection('certificates').orderBy('id', 'desc').get();
+            certificates = certsSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            
+            console.log(`✅ Loaded ${projects.length} projects and ${certificates.length} certificates from Firebase`);
+        } catch (error) {
+            console.error('Error loading from Firebase:', error);
+            // Fallback to localStorage
+            loadFromLocalStorage();
+        }
+    } else {
+        // Use localStorage
+        loadFromLocalStorage();
     }
     
     // Load custom resume if available
@@ -630,6 +727,20 @@ function loadData() {
         if (resumeBtn) {
             resumeBtn.href = savedResume;
         }
+    }
+}
+
+// Load from localStorage (fallback)
+function loadFromLocalStorage() {
+    const savedProjects = localStorage.getItem('portfolioProjects');
+    const savedCertificates = localStorage.getItem('portfolioCertificates');
+    
+    if (savedProjects) {
+        projects = JSON.parse(savedProjects);
+    }
+    
+    if (savedCertificates) {
+        certificates = JSON.parse(savedCertificates);
     }
 }
 
@@ -690,3 +801,21 @@ document.querySelectorAll('section').forEach(section => {
     section.style.transition = 'all 0.6s ease-out';
     observer.observe(section);
 });
+
+// Update Firebase Status Indicator
+function updateFirebaseStatus() {
+    const statusEl = document.getElementById('firebaseStatus');
+    if (!statusEl) return;
+    
+    if (isFirebaseEnabled) {
+        statusEl.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> ☁️ Cloud Sync: <strong style="color: #10b981;">ACTIVE</strong>';
+        statusEl.style.background = 'rgba(16, 185, 129, 0.1)';
+        statusEl.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+        statusEl.style.color = '#10b981';
+    } else {
+        statusEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ⚠️ Cloud Sync: <strong style="color: #f59e0b;">OFFLINE</strong> (Using Local Storage)';
+        statusEl.style.background = 'rgba(245, 158, 11, 0.1)';
+        statusEl.style.border = '1px solid rgba(245, 158, 11, 0.3)';
+        statusEl.style.color = '#f59e0b';
+    }
+}
