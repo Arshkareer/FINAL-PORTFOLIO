@@ -48,7 +48,8 @@
         
         <div class="admin-tabs">
             <button class="tab-btn active" data-tab="projects">Manage Projects</button>
-            <button class="tab-btn" data-tab="certificates">Manage Certificates</button>
+            <button class="tab-btn" data-tab="certificates-tech">Technical Certificates</button>
+            <button class="tab-btn" data-tab="certificates-extra">Extra Curricular</button>
             <button class="tab-btn" data-tab="resume">Update Resume</button>
             <button class="tab-btn" data-tab="sync">Sync Data</button>
         </div>
@@ -73,19 +74,34 @@
             <div id="existingProjects" class="existing-items"></div>
         </div>
 
-        <!-- Certificates Tab -->
-        <div id="certificates-tab" class="tab-content">
-            <h3>Add New Certificate</h3>
+        <!-- Certificates Tab - Technical -->
+        <div id="certificates-tech-tab" class="tab-content">
+            <h3>Add New Technical Certificate</h3>
             <form id="addCertForm">
                 <input type="text" name="title" placeholder="Certificate Title" required>
                 <textarea name="description" placeholder="Description" required></textarea>
-                <input type="text" name="category" placeholder="Category (Technical/Extra Curricular)" required>
+                <input type="hidden" name="category" value="Technical">
                 <input type="file" name="certImage" accept="image/*" required>
-                <button type="submit">Add Certificate</button>
+                <button type="submit">Add Technical Certificate</button>
             </form>
             
-            <h3 style="margin-top: 40px;">Existing Certificates</h3>
-            <div id="existingCertificates" class="existing-items"></div>
+            <h3 style="margin-top: 40px;">Existing Technical Certificates</h3>
+            <div id="existingCertificatesTech" class="existing-items"></div>
+        </div>
+
+        <!-- Certificates Tab - Extra Curricular -->
+        <div id="certificates-extra-tab" class="tab-content">
+            <h3>Add New Extra Curricular Certificate</h3>
+            <form id="addCertFormExtra">
+                <input type="text" name="title" placeholder="Certificate Title" required>
+                <textarea name="description" placeholder="Description" required></textarea>
+                <input type="hidden" name="category" value="Extra Curricular">
+                <input type="file" name="certImage" accept="image/*" required>
+                <button type="submit">Add Extra Curricular Certificate</button>
+            </form>
+            
+            <h3 style="margin-top: 40px;">Existing Extra Curricular Certificates</h3>
+            <div id="existingCertificatesExtra" class="existing-items"></div>
         </div>
 
         <!-- Resume Tab -->

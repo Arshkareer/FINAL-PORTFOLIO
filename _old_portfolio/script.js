@@ -663,10 +663,21 @@ function renderCertificates() {
     const technicalCerts = document.getElementById('technicalCerts');
     const extraCerts = document.getElementById('extraCerts');
     
-    console.log(`🎨 Rendering ${certificates.length} certificates`);
+    if (!technicalCerts || !extraCerts) {
+        console.error('❌ Certificate containers not found!');
+        return;
+    }
     
-    const technical = certificates.filter(cert => cert.category.toLowerCase().includes('technical'));
-    const extra = certificates.filter(cert => cert.category.toLowerCase().includes('extra') || cert.category.toLowerCase().includes('curricular'));
+    console.log(`🎨 Rendering ${certificates.length} certificates:`, certificates.map(c => c.title));
+    
+    const technical = certificates.filter(cert => cert.category && cert.category.toLowerCase().includes('technical'));
+    const extra = certificates.filter(cert => cert.category && (cert.category.toLowerCase().includes('extra') || cert.category.toLowerCase().includes('curricular')));
+    
+    console.log(`📊 Technical: ${technical.length}, Extra Curricular: ${extra.length}`);
+    
+    if (technical.length === 0 && extra.length === 0 && certificates.length > 0) {
+        console.warn('⚠️ Certificates exist but none match category filters!');
+    }
     
     technicalCerts.innerHTML = technical.map(cert => `
         <div class="cert-card">
