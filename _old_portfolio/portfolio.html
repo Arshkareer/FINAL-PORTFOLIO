@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR$H - Professional Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Admin Login Button (Fixed) -->
+    <button id="adminLoginBtn" class="admin-btn">
+        <i class="fas fa-lock"></i>
+    </button>
+
+    <!-- Admin Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <input type="password" id="adminPassword" placeholder="Enter Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-header">
+            <h2>Admin Dashboard</h2>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="projects">Manage Projects</button>
+            <button class="tab-btn" data-tab="certificates">Manage Certificates</button>
+        </div>
+
+        <!-- Projects Tab -->
+        <div id="projects-tab" class="tab-content active">
+            <h3>Add New Project</h3>
+            <form id="addProjectForm">
+                <input type="text" name="title" placeholder="Project Title" required>
+                <textarea name="description" placeholder="Project Description" required></textarea>
+                <input type="text" name="techStack" placeholder="Tech Stack (e.g., HTML, CSS, JS)" required>
+                <input type="url" name="githubLink" placeholder="GitHub Link" required>
+                <input type="file" name="screenshot" accept="image/*" required>
+                <button type="submit">Add Project</button>
+            </form>
+            
+            <h3 style="margin-top: 40px;">Existing Projects</h3>
+            <div id="existingProjects" class="existing-items"></div>
+        </div>
+
+        <!-- Certificates Tab -->
+        <div id="certificates-tab" class="tab-content">
+            <h3>Add New Certificate</h3>
+            <form id="addCertForm">
+                <input type="text" name="title" placeholder="Certificate Title" required>
+                <textarea name="description" placeholder="Description" required></textarea>
+                <input type="text" name="category" placeholder="Category (Technical/Extra Curricular)" required>
+                <input type="file" name="certImage" accept="image/*" required>
+                <button type="submit">Add Certificate</button>
+            </form>
+            
+            <h3 style="margin-top: 40px;">Existing Certificates</h3>
+            <div id="existingCertificates" class="existing-items"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">AR<span class="accent">$</span>H</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certificates">Certificates</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Hey, I'm <span class="gradient-text">Arshdeep Singh</span>
+                        <span class="wave-emoji">👋</span>
+                    </h1>
+                    <p class="hero-subtitle">A software developer from Ludhiana</p>
+                    <p class="hero-tagline">Trying to cause a positive impact through technology.</p>
+                    <div class="hero-code">
+                        <span class="code-line">$ I develop tools for <span class="typing-text">dashboards</span></span>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="#contact" class="btn btn-primary">Hire Me</a>
+                        <a href="resume.pdf" download class="btn btn-secondary">Download Resume</a>
+                    </div>
+                </div>
+                <div class="hero-animation">
+                    <div class="code-animation">
+                        <div class="code-window">
+                            <div class="window-header">
+                                <div class="window-dots">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <div class="window-title">portfolio.js</div>
+                            </div>
+                            <div class="code-content">
+                                <div class="code-line"><span class="keyword">const</span> <span class="variable">developer</span> = {</div>
+                                <div class="code-line indent1"><span class="property">name:</span> <span class="string">'Arshdeep'</span>,</div>
+                                <div class="code-line indent1"><span class="property">skills:</span> [<span class="string">'React'</span>, <span class="string">'Node'</span>],</div>
+                                <div class="code-line indent1"><span class="property">passion:</span> <span class="string">'Building'</span></div>
+                                <div class="code-line">};</div>
+                                <div class="code-line"></div>
+                                <div class="code-line"><span class="keyword">function</span> <span class="function">createAmazing</span>() {</div>
+                                <div class="code-line indent1"><span class="keyword">return</span> <span class="string">'✨ Magic'</span>;</div>
+                                <div class="code-line">}</div>
+                                <div class="cursor-line">|</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>23+</h3>
+                    <p>Projects Development from scratch</p>
+                </div>
+                <div class="stat-item">
+                    <h3>10+</h3>
+                    <p>Certifications Earned</p>
+                </div>
+                <div class="stat-item">
+                    <h3>96%</h3>
+                    <p>Positive Feedback from tech</p>
+                </div>
+                <div class="stat-item">
+                    <h3>8</h3>
+                    <p>People Team Lead</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">Introduction</h2>
+                    <p>Hi, I'm <span class="highlight">ARSHDEEP SINGH</span> — a passionate full-stack developer and designer with a passion for building elegant code and innovative solutions.</p>
+                    <p>Alongside my technical skills, I have a strong interest in business and startups. I'm fascinated by how technology drives entrepreneurship and transforms ideas into successful ventures. My goal is to blend technical expertise with entrepreneurial mindset to create impactful products that matter.</p>
+                </div>
+                <div class="about-image">
+                    <div class="circular-frame-wrapper">
+                        <div class="outer-oval-frame"></div>
+                        <div class="inner-oval-frame"></div>
+                        <img src="arsh-Photoroom.png" alt="Arshdeep Singh" class="about-profile-pic">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <h2 class="section-title">Services</h2>
+            <p class="section-subtitle">Empowering your business with modern web solutions & design.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Custom Web Apps</h3>
+                    <p>Create fast, scalable, and responsive apps tailored for your needs.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-pencil-ruler"></i>
+                    </div>
+                    <h3>UI/UX Design</h3>
+                    <p>Intuitive designs focused on user engagement and delightful experience.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3>Digital Marketing</h3>
+                    <p>Boost your online presence with SEO, social media & targeted campaigns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <p class="section-subtitle">Hover over projects to see details</p>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Section -->
+    <section id="certificates" class="certificates-section">
+        <div class="container">
+            <h2 class="section-title">Technical Certifications</h2>
+            <div class="certificates-grid" id="technicalCerts">
+                <!-- Certificates will be loaded dynamically -->
+            </div>
+
+            <h2 class="section-title" style="margin-top: 60px;">Extra Curricular Certifications</h2>
+            <div class="certificates-grid" id="extraCerts">
+                <!-- Certificates will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Preview Modal -->
+    <div id="certPreviewModal" class="cert-modal">
+        <div class="cert-modal-content">
+            <span class="cert-close">&times;</span>
+            <img id="certPreviewImage" src="" alt="Certificate Preview">
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-text">
+                    <h2>Let's Build Something Amazing</h2>
+                    <p>Got a project idea? Share it with me and I'll send a fast, detailed proposal with timeline, cost, and next steps.</p>
+                    <a href="mailto:arshkareer2005@gmail.com" class="btn btn-primary">Get In Touch</a>
+                </div>
+                <div class="contact-info">
+                    <h3>Contact Details</h3>
+                    <p><strong>Email:</strong> <a href="mailto:arshkareer2005@gmail.com">arshkareer2005@gmail.com</a></p>
+                    <p><strong>Phone:</strong> +91-9115926692</p>
+                    <p><strong>WhatsApp:</strong> <a href="https://wa.me/919115926692" target="_blank">+91-9115926692</a></p>
+                    <h3>Follow Me</h3>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/arshdeep-singh-692539296" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/deeparsh_5911" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://github.com/Arshkareer" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://wa.me/919115926692" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:arshkareer2005@gmail.com"><i class="fa fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">AR<span class="accent">$</span>H</div>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#certificates">Certificates</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <p class="copyright">&copy; 2025 AR$H. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
