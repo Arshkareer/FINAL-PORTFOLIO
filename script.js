@@ -36,8 +36,8 @@ let editingProjectId = null;
 let editingCertId = null;
 
 // Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    loadData();
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadData();
     renderProjects();
     renderCertificates();
     setupEventListeners();
@@ -590,36 +590,7 @@ async function deleteCertificate(id) {
 function renderProjects() {
     const projectsGrid = document.getElementById('projectsGrid');
     
-    // Default projects if none exist
-    if (projects.length === 0) {
-        projects = [
-            {
-                id: 1,
-                title: "Skill Enhancement Dashboard",
-                description: "A web app where students found each and every language and courses under single roof to get skill and Development.",
-                techStack: ["HTML", "CSS", "JavaScript"],
-                githubLink: "https://github.com/Arshkareer/First-Frontend-Project-",
-                screenshot: "Screenshot (14).png"
-            },
-            {
-                id: 2,
-                title: "Teacher Availability Portal",
-                description: "A web app where students are able to find the teachers by simply entering their name to find the location that will help to find accurately and tends to save their time.",
-                techStack: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
-                githubLink: "https://github.com/Arshkareer/Teacher-Availability-Portal",
-                screenshot: "Screenshot (15).png"
-            },
-            {
-                id: 3,
-                title: "User Tracking System",
-                description: "A web app where all the activities are get tracked that have been performed by user even a single click.",
-                techStack: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
-                githubLink: "https://github.com/Arshkareer/User-Tracking-System",
-                screenshot: "Screenshot (16).png"
-            }
-        ];
-        saveData();
-    }
+    console.log(`🎨 Rendering ${projects.length} projects:`, projects.map(p => p.title));
     
     projectsGrid.innerHTML = projects.map(project => `
         <div class="project-card">
@@ -657,54 +628,7 @@ function renderCertificates() {
     const technicalCerts = document.getElementById('technicalCerts');
     const extraCerts = document.getElementById('extraCerts');
     
-    // Default certificates if none exist
-    if (certificates.length === 0) {
-        certificates = [
-            {
-                id: 1,
-                title: "ISO Certificate",
-                description: "Actively participating in workshop on Emerging Technologies.",
-                category: "Technical",
-                image: "WhatsApp Image 2025-08-12 at 11.30.28_70218134.jpg"
-            },
-            {
-                id: 2,
-                title: "Hackathon Achievement",
-                description: "Proudly secured the Third Position in the Hackathon organized by Guru Nanak Dev Engineering College.",
-                category: "Technical",
-                image: "WhatsApp Image 2025-08-12 at 11.43.36_f2abffea.jpg"
-            },
-            {
-                id: 3,
-                title: "GNA Hackathon 3.0",
-                description: "Successfully participated in GNA Hackathon 3.0 organised by GNA University.",
-                category: "Technical",
-                image: "WhatsApp Image 2025-08-12 at 12.31.54_9e2df64c.jpg"
-            },
-            {
-                id: 4,
-                title: "Tech Trova: AI Edition Innovation",
-                description: "Secured 2nd Position in Tech Trova: AI Edition Innovation at ISTE Student Convention 2024. Awarded by Chitkara University for excellence in AI innovation.",
-                category: "Extra Curricular",
-                image: "WhatsApp Image 2025-08-12 at 19.17.04_7fbf360c.jpg"
-            },
-            {
-                id: 5,
-                title: "Sports Achievement",
-                description: "Secured 2nd Position in Tug of War at Inter Year League 2025. Awarded by Guru Nanak Dev Engineering College for athletics excellence.",
-                category: "Extra Curricular",
-                image: "WhatsApp Image 2025-08-12 at 19.23.42_53d46814.jpg"
-            },
-            {
-                id: 6,
-                title: "Tech Exhibition",
-                description: "Presented Concept of Acknowledgment at Tech Exhibition 2025. Awarded Certificate of Participation by Guru Nanak Dev Engineering College.",
-                category: "Extra Curricular",
-                image: "WhatsApp Image 2025-08-12 at 19.28.13_fea31d67.jpg"
-            }
-        ];
-        saveData();
-    }
+    console.log(`🎨 Rendering ${certificates.length} certificates`);
     
     const technical = certificates.filter(cert => cert.category.toLowerCase().includes('technical'));
     const extra = certificates.filter(cert => cert.category.toLowerCase().includes('extra') || cert.category.toLowerCase().includes('curricular'));
@@ -810,6 +734,16 @@ async function loadData() {
             }
             
             console.log(`✅ Loaded ${projects.length} projects and ${certificates.length} certificates from Firebase`);
+            
+            // If no projects in Firebase, load defaults
+            if (projects.length === 0) {
+                loadDefaultProjects();
+            }
+            
+            // If no certificates in Firebase, load defaults
+            if (certificates.length === 0) {
+                loadDefaultCertificates();
+            }
         } catch (error) {
             console.error('Error loading from Firebase:', error);
             // Fallback to localStorage
@@ -828,6 +762,84 @@ async function loadData() {
             resumeBtn.href = savedResume;
         }
     }
+}
+
+// Load default projects if none exist
+function loadDefaultProjects() {
+    projects = [
+        {
+            id: 1,
+            title: "Skill Enhancement Dashboard",
+            description: "A web app where students found each and every language and courses under single roof to get skill and Development.",
+            techStack: ["HTML", "CSS", "JavaScript"],
+            githubLink: "https://github.com/Arshkareer/First-Frontend-Project-",
+            screenshot: "Screenshot (14).png"
+        },
+        {
+            id: 2,
+            title: "Teacher Availability Portal",
+            description: "A web app where students are able to find the teachers by simply entering their name to find the location that will help to find accurately and tends to save their time.",
+            techStack: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+            githubLink: "https://github.com/Arshkareer/Teacher-Availability-Portal",
+            screenshot: "Screenshot (15).png"
+        },
+        {
+            id: 3,
+            title: "User Tracking System",
+            description: "A web app where all the activities are get tracked that have been performed by user even a single click.",
+            techStack: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+            githubLink: "https://github.com/Arshkareer/User-Tracking-System",
+            screenshot: "Screenshot (16).png"
+        }
+    ];
+}
+
+// Load default certificates if none exist
+function loadDefaultCertificates() {
+    certificates = [
+        {
+            id: 1,
+            title: "ISO Certificate",
+            description: "Actively participating in workshop on Emerging Technologies.",
+            category: "Technical",
+            image: "WhatsApp Image 2025-08-12 at 11.30.28_70218134.jpg"
+        },
+        {
+            id: 2,
+            title: "Hackathon Achievement",
+            description: "Proudly secured the Third Position in the Hackathon organized by Guru Nanak Dev Engineering College.",
+            category: "Technical",
+            image: "WhatsApp Image 2025-08-12 at 11.43.36_f2abffea.jpg"
+        },
+        {
+            id: 3,
+            title: "GNA Hackathon 3.0",
+            description: "Successfully participated in GNA Hackathon 3.0 organised by GNA University.",
+            category: "Technical",
+            image: "WhatsApp Image 2025-08-12 at 12.31.54_9e2df64c.jpg"
+        },
+        {
+            id: 4,
+            title: "Tech Trova: AI Edition Innovation",
+            description: "Secured 2nd Position in Tech Trova: AI Edition Innovation at ISTE Student Convention 2024. Awarded by Chitkara University for excellence in AI innovation.",
+            category: "Extra Curricular",
+            image: "WhatsApp Image 2025-08-12 at 19.17.04_7fbf360c.jpg"
+        },
+        {
+            id: 5,
+            title: "Sports Achievement",
+            description: "Secured 2nd Position in Tug of War at Inter Year League 2025. Awarded by Guru Nanak Dev Engineering College for athletics excellence.",
+            category: "Extra Curricular",
+            image: "WhatsApp Image 2025-08-12 at 19.23.42_53d46814.jpg"
+        },
+        {
+            id: 6,
+            title: "Tech Exhibition",
+            description: "Presented Concept of Acknowledgment at Tech Exhibition 2025. Awarded Certificate of Participation by Guru Nanak Dev Engineering College.",
+            category: "Extra Curricular",
+            image: "WhatsApp Image 2025-08-12 at 19.28.13_fea31d67.jpg"
+        }
+    ];
 }
 
 // Load from localStorage (fallback)
