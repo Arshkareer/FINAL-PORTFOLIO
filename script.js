@@ -132,6 +132,7 @@ function setupEventListeners() {
     // Export/Import Data
     document.getElementById('exportDataBtn').addEventListener('click', exportData);
     document.getElementById('importDataFile').addEventListener('change', importData);
+    document.getElementById('syncLocalToFirebase').addEventListener('click', syncLocalToFirebase);
     
     // Update data counts
     updateDataCounts();
@@ -324,13 +325,66 @@ function exportData() {
     
     const link = document.createElement('a');
     link.href = url;
-    link.download = `portfolio-data-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `portfolio-backup-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
     
-    alert('Data exported successfully! Transfer this file to your other device.');
+    alert('Backup exported successfully!');
+}
+
+// Sync Local Storage to Firebase
+async function syncLocalToFirebase() {
+    if (!isFirebaseEnabled) {
+        alert('Firebase is not connected. Please check your internet connection.');
+        return;
+    }
+    
+    if (!confirm('This will upload all data from this device to the cloud. Continue?')) {
+        return;
+    }
+    
+    try {
+        const localProjects = JSON.parse(localStorage.getItem('portfolioProjects') || '[]');
+        const localCerts = JSON.parse(localStorage.getItem('portfolioCertificates') || '[]');
+        
+        let uploadedProjects = 0;
+        let uploadedCerts = 0;
+        
+        // Upload projects
+        for (const project of localProjects) {
+            // Check if project already exists in Firebase
+            const existingProject = projects.find(p => p.id === project.id);
+            if (!existingProject) {
+                await db.collection('projects').add(project);
+                uploadedProjects++;
+            }
+        }
+        
+        // Upload certificates
+        for (const cert of localCerts) {
+            // Check if certificate already exists in Firebase
+            const existingCert = certificates.find(c => c.id === cert.id);
+            if (!existingCert) {
+                await db.collection('certificates').add(cert);
+                uploadedCerts++;
+            }
+        }
+        
+        // Reload data
+        await loadData();
+        renderProjects();
+        renderCertificates();
+        renderExistingProjects();
+        renderExistingCertificates();
+        updateDataCounts();
+        
+        alert(`✅ Sync complete!\n\nUploaded:\n- ${uploadedProjects} projects\n- ${uploadedCerts} certificates\n\nAll devices will now show this data!`);
+    } catch (error) {
+        console.error('Error syncing to Firebase:', error);
+        alert('Error syncing data. Please try again.');
+    }
 }
 
 // Import Data
@@ -704,10 +758,49 @@ async function loadData() {
         try {
             // Load from Firebase
             const projectsSnapshot = await db.collection('projects').orderBy('id', 'desc').get();
-            projects = projectsSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            const firebaseProjects = projectsSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
             
             const certsSnapshot = await db.collection('certificates').orderBy('id', 'desc').get();
-            certificates = certsSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            const firebaseCerts = certsSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            
+            // Check if we have old localStorage data that needs to be migrated
+            const localProjects = JSON.parse(localStorage.getItem('portfolioProjects') || '[]');
+            const localCerts = JSON.parse(localStorage.getItem('portfolioCertificates') || '[]');
+            
+            // Migrate localStorage data to Firebase if it exists and Firebase is empty
+            if (firebaseProjects.length === 0 && localProjects.length > 0) {
+                console.log('📤 Migrating projects from localStorage to Firebase...');
+                for (const project of localProjects) {
+                    try {
+                        const docRef = await db.collection('projects').add(project);
+                        console.log(`✅ Migrated project: ${project.title}`);
+                    } catch (error) {
+                        console.error('Error migrating project:', error);
+                    }
+                }
+                // Reload from Firebase after migration
+                const newSnapshot = await db.collection('projects').orderBy('id', 'desc').get();
+                projects = newSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            } else {
+                projects = firebaseProjects;
+            }
+            
+            if (firebaseCerts.length === 0 && localCerts.length > 0) {
+                console.log('📤 Migrating certificates from localStorage to Firebase...');
+                for (const cert of localCerts) {
+                    try {
+                        const docRef = await db.collection('certificates').add(cert);
+                        console.log(`✅ Migrated certificate: ${cert.title}`);
+                    } catch (error) {
+                        console.error('Error migrating certificate:', error);
+                    }
+                }
+                // Reload from Firebase after migration
+                const newSnapshot = await db.collection('certificates').orderBy('id', 'desc').get();
+                certificates = newSnapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+            } else {
+                certificates = firebaseCerts;
+            }
             
             console.log(`✅ Loaded ${projects.length} projects and ${certificates.length} certificates from Firebase`);
         } catch (error) {
