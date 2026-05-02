@@ -297,6 +297,8 @@ body {
         box-shadow: 0 10px 27px rgba(0, 0, 0, 0.5);
         padding: 20px 0;
         gap: 0;
+        z-index: 999;
+        display: flex !important;
     }
 
     .nav-menu.active {
@@ -1337,6 +1339,22 @@ body {
     .nav-menu {
         display: none;
     }
+    
+    /* Reduce hero section padding on mobile */
+    .hero {
+        padding: 100px 0 40px;
+        min-height: auto;
+    }
+    
+    /* Reduce stats margin */
+    .stats {
+        margin-top: 30px;
+    }
+    
+    /* Reduce about section padding */
+    .about-section {
+        padding: 40px 0;
+    }
 
     .hero-content,
     .about-content,
@@ -1385,6 +1403,35 @@ body {
     .projects-grid,
     .certificates-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Fix project cards on mobile - show overlay by default */
+    .project-overlay {
+        opacity: 1;
+        background: linear-gradient(to top, rgba(10, 14, 39, 0.95) 0%, rgba(10, 14, 39, 0.7) 50%, transparent 100%);
+    }
+    
+    .project-card {
+        height: 400px;
+    }
+    
+    .project-title {
+        font-size: 20px;
+    }
+    
+    .project-description {
+        font-size: 13px;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .project-view-btn,
+    .project-link {
+        width: 100%;
+        justify-content: center;
     }
     
     .item-card {
