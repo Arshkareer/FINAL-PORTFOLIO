@@ -100,6 +100,13 @@ function setupEventListeners() {
     // Update Resume Form
     document.getElementById('updateResumeForm').addEventListener('submit', handleUpdateResume);
     
+    // Export/Import Data
+    document.getElementById('exportDataBtn').addEventListener('click', exportData);
+    document.getElementById('importDataFile').addEventListener('change', importData);
+    
+    // Update data counts
+    updateDataCounts();
+    
     // Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -247,6 +254,76 @@ async function handleUpdateResume(e) {
     };
     
     reader.readAsDataURL(resumeFile);
+}
+
+// Export Data
+function exportData() {
+    const data = {
+        projects: projects,
+        certificates: certificates,
+        resume: localStorage.getItem('portfolioResume'),
+        exportDate: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `portfolio-data-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    alert('Data exported successfully! Transfer this file to your other device.');
+}
+
+// Import Data
+function importData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const data = JSON.parse(event.target.result);
+            
+            if (confirm('This will replace all current data. Continue?')) {
+                projects = data.projects || [];
+                certificates = data.certificates || [];
+                
+                if (data.resume) {
+                    localStorage.setItem('portfolioResume', data.resume);
+                }
+                
+                saveData();
+                renderProjects();
+                renderCertificates();
+                renderExistingProjects();
+                renderExistingCertificates();
+                updateDataCounts();
+                
+                alert('Data imported successfully! Your projects and certificates are now synced.');
+            }
+        } catch (error) {
+            alert('Error importing data. Please make sure you selected a valid export file.');
+            console.error(error);
+        }
+    };
+    
+    reader.readAsText(file);
+    e.target.value = ''; // Reset file input
+}
+
+// Update Data Counts
+function updateDataCounts() {
+    const projectCountEl = document.getElementById('projectCount');
+    const certCountEl = document.getElementById('certCount');
+    
+    if (projectCountEl) projectCountEl.textContent = projects.length;
+    if (certCountEl) certCountEl.textContent = certificates.length;
 }
 
 // Render Existing Projects in Admin Panel

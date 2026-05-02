@@ -37,13 +37,14 @@
             <button class="tab-btn active" data-tab="projects">Manage Projects</button>
             <button class="tab-btn" data-tab="certificates">Manage Certificates</button>
             <button class="tab-btn" data-tab="resume">Update Resume</button>
+            <button class="tab-btn" data-tab="sync">Sync Data</button>
         </div>
 
         <!-- Projects Tab -->
         <div id="projects-tab" class="tab-content active">
             <div style="background: rgba(255, 209, 102, 0.1); border-left: 4px solid var(--accent-yellow); padding: 15px; margin-bottom: 20px; border-radius: 8px;">
                 <p style="color: var(--accent-yellow); font-weight: 600; margin-bottom: 5px;">📱 Important Note:</p>
-                <p style="color: var(--text-secondary); font-size: 14px;">Projects are stored locally in your browser. They won't sync between devices. Add projects on each device separately, or use the same browser on all devices.</p>
+                <p style="color: var(--text-secondary); font-size: 14px;">Projects are stored locally in your browser. Use the "Sync Data" tab to transfer projects between devices!</p>
             </div>
             <h3>Add New Project</h3>
             <form id="addProjectForm">
@@ -84,6 +85,32 @@
                 <input type="file" name="resumeFile" accept=".pdf" required>
                 <button type="submit">Update Resume</button>
             </form>
+        </div>
+
+        <!-- Sync Data Tab -->
+        <div id="sync-tab" class="tab-content">
+            <h3>Sync Data Between Devices</h3>
+            <div style="background: rgba(124, 58, 237, 0.1); border-left: 4px solid var(--accent-purple); padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+                <p style="color: var(--accent-purple); font-weight: 600; margin-bottom: 5px;">🔄 How to Sync:</p>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">1. On your laptop: Click "Export Data" to download all projects & certificates</p>
+                <p style="color: var(--text-secondary); font-size: 14px;">2. On your phone: Click "Import Data" and select the downloaded file</p>
+            </div>
+            
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button id="exportDataBtn" class="btn btn-primary" style="flex: 1; min-width: 200px; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                    <i class="fa fa-download"></i> Export Data
+                </button>
+                <label for="importDataFile" class="btn btn-secondary" style="flex: 1; min-width: 200px; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; text-align: center; display: inline-block;">
+                    <i class="fa fa-upload"></i> Import Data
+                </label>
+                <input type="file" id="importDataFile" accept=".json" style="display: none;">
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: var(--bg-dark); border-radius: 10px;">
+                <h4 style="color: var(--accent-yellow); margin-bottom: 10px;">Current Data:</h4>
+                <p style="color: var(--text-secondary);">Projects: <span id="projectCount" style="color: var(--accent-yellow); font-weight: 600;">0</span></p>
+                <p style="color: var(--text-secondary);">Certificates: <span id="certCount" style="color: var(--accent-yellow); font-weight: 600;">0</span></p>
+            </div>
         </div>
     </div>
 
