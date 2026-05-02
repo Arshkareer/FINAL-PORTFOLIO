@@ -231,16 +231,24 @@ async function handleAddProject(e) {
                 const docRef = await db.collection('projects').add(project);
                 project.firebaseId = docRef.id;
                 console.log('✅ Project saved to Firebase with ID:', docRef.id);
+                // Don't call render functions here - real-time listener will handle it
             } catch (error) {
                 console.error('Error saving to Firebase:', error);
                 alert('Warning: Project saved locally but not synced to cloud. Check your internet connection.');
+                // Only render if Firebase failed
+                projects.push(project);
+                saveData();
+                renderProjects();
+                renderExistingProjects();
             }
+        } else {
+            // Firebase offline - save locally
+            projects.push(project);
+            saveData();
+            renderProjects();
+            renderExistingProjects();
         }
         
-        projects.push(project);
-        saveData();
-        renderProjects();
-        renderExistingProjects();
         e.target.reset();
         alert('Project added successfully!' + (isFirebaseEnabled ? ' ✅ Synced to all devices!' : ''));
     };
@@ -255,6 +263,11 @@ async function handleAddCertificate(e) {
     const formData = new FormData(e.target);
     const certImage = formData.get('certImage');
     
+    if (!certImage || !certImage.type.startsWith('image/')) {
+        alert('Please upload a valid image file!');
+        return;
+    }
+    
     // Convert image to base64
     const reader = new FileReader();
     reader.onload = async function(event) {
@@ -266,22 +279,32 @@ async function handleAddCertificate(e) {
             image: event.target.result
         };
         
+        console.log('📝 Adding certificate:', certificate.title, 'Category:', certificate.category);
+        
         // Save to Firebase if enabled
         if (isFirebaseEnabled) {
             try {
                 const docRef = await db.collection('certificates').add(certificate);
                 certificate.firebaseId = docRef.id;
                 console.log('✅ Certificate saved to Firebase with ID:', docRef.id);
+                // Don't call render functions here - real-time listener will handle it
             } catch (error) {
                 console.error('Error saving to Firebase:', error);
                 alert('Warning: Certificate saved locally but not synced to cloud. Check your internet connection.');
+                // Only render if Firebase failed
+                certificates.push(certificate);
+                saveData();
+                renderCertificates();
+                renderExistingCertificates();
             }
+        } else {
+            // Firebase offline - save locally
+            certificates.push(certificate);
+            saveData();
+            renderCertificates();
+            renderExistingCertificates();
         }
         
-        certificates.push(certificate);
-        saveData();
-        renderCertificates();
-        renderExistingCertificates();
         e.target.reset();
         alert('Certificate added successfully!' + (isFirebaseEnabled ? ' ✅ Synced to all devices!' : ''));
     };
@@ -707,7 +730,7 @@ function renderCertificates() {
     
     technicalCerts.innerHTML = technical.map(cert => `
         <div class="cert-card">
-            <img src="${cert.image}" alt="${cert.title}" class="cert-image" onclick="previewCertificate('${cert.image}')">
+            <img src="${cert.image || 'placeholder.jpg'}" alt="${cert.title}" class="cert-image" onclick="previewCertificate('${cert.image}')" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'">
             <h3>${cert.title}</h3>
             <p>${cert.description}</p>
             <div class="cert-actions">
@@ -723,7 +746,7 @@ function renderCertificates() {
     
     extraCerts.innerHTML = extra.map(cert => `
         <div class="cert-card">
-            <img src="${cert.image}" alt="${cert.title}" class="cert-image" onclick="previewCertificate('${cert.image}')">
+            <img src="${cert.image || 'placeholder.jpg'}" alt="${cert.title}" class="cert-image" onclick="previewCertificate('${cert.image}')" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ENo Image%3C/text%3E%3C/svg%3E'">
             <h3>${cert.title}</h3>
             <p>${cert.description}</p>
             <div class="cert-actions">
