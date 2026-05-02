@@ -304,7 +304,14 @@ async function handleUpdateResume(e) {
     const reader = new FileReader();
     reader.onload = function(event) {
         localStorage.setItem('portfolioResume', event.target.result);
-        alert('Resume updated successfully! Note: Download the resume link will use the new file.');
+        
+        // Update the download button immediately
+        const resumeBtn = document.getElementById('resumeDownloadBtn');
+        if (resumeBtn) {
+            resumeBtn.href = event.target.result;
+        }
+        
+        alert('✅ Resume updated successfully! The download button now uses your new resume.');
         e.target.reset();
     };
     
