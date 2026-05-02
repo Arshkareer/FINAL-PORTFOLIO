@@ -1,0 +1,101 @@
+%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/Resources <<
+/Font <<
+/F1 4 0 R
+>>
+>>
+/MediaBox [0 0 612 792]
+/Contents 5 0 R
+>>
+endobj
+4 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica-Bold
+>>
+endobj
+5 0 obj
+<<
+/Length 500
+>>
+stream
+BT
+/F1 24 Tf
+50 750 Td
+(ARSHDEEP SINGH) Tj
+0 -30 Td
+/F1 12 Tf
+(Full-Stack Developer | Ludhiana, India) Tj
+0 -40 Td
+(Email: arshkareer2005@gmail.com) Tj
+0 -20 Td
+(Phone: +91-9115926692) Tj
+0 -20 Td
+(GitHub: github.com/Arshkareer) Tj
+0 -40 Td
+/F1 16 Tf
+(SUMMARY) Tj
+0 -25 Td
+/F1 11 Tf
+(Passionate full-stack developer with expertise in web development,) Tj
+0 -15 Td
+(UI/UX design, and building innovative solutions. Strong interest in) Tj
+0 -15 Td
+(entrepreneurship and creating impactful products.) Tj
+0 -40 Td
+/F1 16 Tf
+(SKILLS) Tj
+0 -25 Td
+/F1 11 Tf
+(Languages: HTML, CSS, JavaScript, PHP, MySQL) Tj
+0 -15 Td
+(Frameworks: Bootstrap, React, Node.js) Tj
+0 -15 Td
+(Tools: Git, GitHub, VS Code, Figma) Tj
+0 -40 Td
+/F1 16 Tf
+(PROJECTS) Tj
+0 -25 Td
+/F1 11 Tf
+(1. Skill Enhancement Dashboard - Full-stack web application) Tj
+0 -15 Td
+(2. Teacher Availability Portal - Location-based search system) Tj
+0 -15 Td
+(3. User Tracking System - Activity monitoring platform) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f
+0000000009 00000 n
+0000000058 00000 n
+0000000115 00000 n
+0000000262 00000 n
+0000000351 00000 n
+trailer
+<<
+/Size 6
+/Root 1 0 R
+>>
+startxref
+902
+%%EOF

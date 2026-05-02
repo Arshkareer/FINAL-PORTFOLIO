@@ -1,120 +1,36 @@
-# 🚀 Arshdeep Singh - Professional Portfolio
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-A modern, full-stack portfolio website showcasing my projects, certifications, and skills. Built with Next.js and featuring a beautiful dark theme with yellow/purple gradient accents.
+## Getting Started
 
-## ✨ Features
-
-### 🎨 Modern Design
-- Dark theme with yellow (#ffd166) and purple (#7c3aed) gradient colors
-- Smooth animations and transitions
-- Fully responsive design for all devices
-- Professional VS Code-style animated code editor in hero section
-
-### 📂 Two Portfolio Versions
-1. **Next.js App** (`/app`) - Modern full-stack application with admin panel
-2. **Static Portfolio** (`/_old_portfolio`) - Lightweight HTML/CSS/JS version
-
-### 🔐 Admin Panel
-- Secure login system (password: `arsh@2025`)
-- Add, edit, and delete projects
-- Add, edit, and delete certificates
-- Upload images and manage content
-- Data stored in localStorage
-
-### 🎯 Key Sections
-- **Hero Section** - Animated introduction with typing effect
-- **About** - Professional introduction with circular framed profile image
-- **Services** - Web development, UI/UX design, and digital marketing
-- **Projects** - Interactive project cards with hover effects and image viewer
-- **Certificates** - Technical and extra-curricular achievements with preview/download
-- **Contact** - Email, phone, WhatsApp, and social media links
-
-## 🛠️ Tech Stack
-
-- **Frontend**: Next.js 15, React, HTML5, CSS3, JavaScript
-- **Backend**: Next.js API Routes, Prisma ORM
-- **Database**: SQLite (development)
-- **Styling**: CSS Modules, Custom CSS
-- **Icons**: Font Awesome
-- **Animations**: Custom CSS animations
-
-## 📦 Installation
+First, run the development server:
 
 ```bash
-# Clone the repository
-git clone https://github.com/Arshkareer/FINAL-PORTFOLIO.git
-
-# Navigate to project directory
-cd FINAL-PORTFOLIO
-
-# Install dependencies
-npm install
-
-# Run development server
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the Next.js app.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 📁 Project Structure
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-```
-FINAL-PORTFOLIO/
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── admin/             # Admin panel
-│   ├── login/             # Login page
-│   └── page.js            # Home page
-├── _old_portfolio/        # Static portfolio version
-│   ├── portfolio.html     # Main HTML file
-│   ├── style.css          # Styles
-│   ├── script.js          # JavaScript
-│   └── START_SERVER.bat   # Local server for certificate downloads
-├── lib/                   # Database utilities
-├── prisma/                # Database schema
-└── public/                # Static assets
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## 🎮 Usage
+## Learn More
 
-### Static Portfolio
-1. Navigate to `_old_portfolio` folder
-2. Run `START_SERVER.bat` (Windows) or use any local server
-3. Open `portfolio.html` in your browser
+To learn more about Next.js, take a look at the following resources:
 
-### Next.js App
-1. Run `npm run dev`
-2. Access admin panel via the lock icon (top-right)
-3. Login with password: `arsh@2025`
-4. Manage projects and certificates
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 🔑 Admin Features
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- **Projects Management**: Add project title, description, tech stack, GitHub link, and screenshot
-- **Certificates Management**: Add certificate title, description, category, and image
-- **Edit/Delete**: Modify or remove existing items
-- **Preview**: View certificates in full-screen modal
-- **Download**: Download certificates directly
+## Deploy on Vercel
 
-## 📱 Contact
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- **Email**: arshkareer2005@gmail.com
-- **Phone**: +91-9115926692
-- **WhatsApp**: [+91-9115926692](https://wa.me/919115926692)
-- **LinkedIn**: [Arshdeep Singh](https://www.linkedin.com/in/arshdeep-singh-692539296)
-- **GitHub**: [Arshkareer](https://github.com/Arshkareer)
-- **Instagram**: [@deeparsh_5911](https://www.instagram.com/deeparsh_5911)
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🙏 Acknowledgments
-
-- Font Awesome for icons
-- Google Fonts for Inter font family
-- Next.js team for the amazing framework
-
----
-
-**Made with ❤️ by Arshdeep Singh**
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

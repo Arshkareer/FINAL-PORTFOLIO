@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AR$H — Portfolio by DEVOPS</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome for icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      box-sizing: border-box;
+    }
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#7c3aed; /* purple-ish */
+      --muted:#94a3b8;
+      --glass: rgba(255,255,255,0.03);
+    }
+    html,body{
+      height:100%;
+      background: linear-gradient(180deg, #071025 0%, var(--bg) 100%);
+      color:#e6eef8;
+      font-family: "Poppins", "Montserrat", sans-serif;
+      scroll-behavior:smooth;
+    }
+
+    /* NAVBAR */
+    .navbar{
+      backdrop-filter: blur(6px);
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .brand-mark {
+      font-weight:900;
+      letter-spacing:2px;
+      font-family: "Montserrat", sans-serif;
+      color:var(--accent);
+      font-size:3rem;
+      display:inline-flex;
+      align-items:center;
+      gap:.4rem;
+    }
+    .brand-mark span.dollar{
+      color:#ffd166;
+      transform:translateY(-2px);
+      font-weight:900;
+    }
+    .nav-link{
+      color:var(--muted) !important;
+      transition: color .25s ease, transform .2s ease;
+    }
+    .nav-link:hover{
+      color:var(--accent) !important;
+      transform: translateY(-2px);
+    }
+    .nav-link:active{ color:var(--accent); }
+
+    /* HERO */
+    .hero{
+      padding:60px 0;
+    }
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;
+      padding:28px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+    .profile-pic{
+      width:100%;
+      max-width:300px;
+      border-radius:18px;
+      border: 4px solid rgba(255,255,255,0.04);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: transform .4s ease, filter .4s ease;
+      filter: blur(2px) grayscale(.05);
+    }
+    .profile-pic:hover{
+      transform: translateY(-6px) scale(1.02);
+      filter: blur(0px) grayscale(0);
+    }
+
+    .intro-title{
+      font-family: "Montserrat", sans-serif;
+      font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+      font-weight:800;
+      line-height:1.05;
+      color: #fff;
+      margin-bottom:.6rem;
+    }
+    .intro-sub{
+      color:var(--muted);
+      margin-bottom:1.2rem;
+    }
+    .badge-accent{
+      background: linear-gradient(90deg, rgba(124,58,237,0.18), rgba(124,58,237,0.08));
+      color: var(--accent);
+      border-radius:999px;
+      padding:.35rem .7rem;
+      font-weight:600;
+      display:inline-block;
+      border:1px solid rgba(124,58,237,0.12);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 64px 0;
+    }
+    h2.section-title{
+      font-weight:800;
+      color:#fff;
+      letter-spacing:0.3px;
+      margin-bottom:1.2rem;
+      font-family: "Montserrat", sans-serif;
+    }
+    .muted { color:var(--muted); }
+
+    /* PROJECTS CARDS + CAROUSEL */
+    .project-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+      border-radius:12px;
+      padding:12px;
+      height:100%;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .35s ease, box-shadow .35s ease;
+      overflow:hidden;
+    }
+    .project-card:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 18px 40px rgba(2,6,23,0.6);
+    }
+    .project-thumb{
+      width:100%;
+      height:170px;
+      object-fit:cover;
+      border-radius:8px;
+      transition: filter .35s ease, transform .4s ease;
+      filter: blur(4px) grayscale(.08);
+    }
+    .project-card:hover .project-thumb{
+      filter: blur(0px);
+      transform: scale(1.03);
+    }
+    .proj-title{
+      font-weight:700;
+      font-size:1.03rem;
+      margin-top:.6rem;
+    }
+    .proj-footer{
+      margin-top: .8rem;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .btn-github{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      color:var(--muted);
+      transition: all .22s ease;
+    }
+    .btn-github:hover{
+      color:#fff;
+      border-color:var(--accent);
+      background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(124,58,237,0.06));
+    }
+
+    /* Certifications */
+    .cert-card{
+      padding:16px;
+      border-radius:10px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    /* CTA */
+    .cta{
+      border-radius:14px;
+      padding:28px;
+      background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(99,102,241,0.06));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+
+    /* Social icons */
+    .social a{
+      color:var(--muted);
+      margin-right:12px;
+      transition: transform .18s ease, color .18s ease;
+    }
+    .social a:hover{
+      color:var(--accent);
+      transform: translateY(-4px);
+    }
+
+    /* Footer */
+    footer{
+      padding:24px 0;
+      color:var(--muted);
+      border-top:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* Responsive tweaks for carousel multiple items */
+    .carousel-item > .row { gap:1rem; }
+
+    /* Scroll animation classes */
+    .reveal {
+      opacity:0;
+      transform: translateY(18px);
+      filter: blur(6px) saturate(.9);
+      transition: all .75s cubic-bezier(.2,.9,.2,1);
+    }
+    .reveal.visible {
+      opacity:1;
+      transform: translateY(0px);
+      filter: blur(0px) saturate(1);
+    }
+
+    /* Small helpers */
+    .small-muted { color:var(--muted); font-size:1rem; }
+
+    
+    .service-card:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+      box-shadow: 0 6px 25px rgba(255, 255, 255, 0.25);
+    }
+    .service-card:hover .service-icon {
+      transform: rotate(15deg) scale(1.1);
+      color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#home">
+        <div class="brand-mark">AR<span class="dollar">$</span>H</div>
+        <div class="small-muted ms-2" style="font-size:.78rem"></div>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon" style="color:var(--muted)"><i class="fa fa-bars"></i></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#certs">Certifications</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="hero">
+    <div class="container">
+      <div class="hero-card d-lg-flex align-items-center gap-4">
+        <div class="col-lg-4 text-center">
+          <!-- Replace placeholder.jpg with your real photo -->
+          <img src="WhatsApp Image 2025-08-11 at 23.23.42_55904616.jpg" alt="AR$H Photo" class="profile-pic shadow-sm mx-auto d-block">
+          <div class="mt-3 small-muted">Full-stack / Designer / Founder</div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="intro-title reveal">Hey — I'm <span style="color:var(--accent)">AR<span class="dollar">$</span>H</span></div>
+          <div class="intro-title reveal"> <span style="color:var(--accent)">Full-stack Developer</span></div>
+          <p class="intro-sub reveal">“Coding transforms complex problems into efficient algorithms, enabling machines to perform precise tasks. It’s the art of structuring logic to build scalable and robust solutions.”</p>
+
+          <div class="d-flex gap-3 align-items-center mb-3 reveal">
+            <span class="badge-accent">Web • UI • Branding</span>
+            <a href="#projects" class="btn btn-outline-light btn-sm">See Projects</a>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 social reveal">
+            <a href="https://www.linkedin.com/in/arshdeep-singh-692539296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" id="lnkLinkedIn" title="LinkedIn"><i class="fab fa-linkedin fa-lg"></i></a>
+            <a href="https://www.instagram.com/deeparsh_5911?igsh=MXBueDNzM3F0aWVuMQ==" id="lnkInsta" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+            <a href="https://github.com/Arshkareer" id="lnkGithub" title="GitHub"><i class="fab fa-github fa-lg"></i></a>
+            <a href="mailto:arshkareer2005@gmail.com" id="lnkMail" title="Mail"><i class="fa fa-envelope fa-lg"></i></a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- INTRODUCTION -->
+<section id="introduction">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 reveal">
+        <h2 class="section-title">Introduction</h2>
+        <p class="small-muted" style="max-width:700px;">
+          Hi, I'm <span style="color:var(--accent)">ARSHDEEP SINGH</span> — a passionate full-stack developer and designer with a passion for building elegant code and innovative solutions.
+          Alongside my technical skills, I have a strong interest in bussiness and startups. I’m fascinated by how technology drives entrepreneurship and transforms ideas into successful ventures. My goal is to blend technical expertise with entrepreneurial mindset to create impactful products that matter.
+        </p>
+      </div>
+      <div class="col-lg-6 text-center reveal">
+        <!-- Lottie animation placeholder -->
+        <lottie-player
+          src="Coding Slide.json"
+          background="transparent"
+          speed="1"
+          style="width: 100%; max-width: 400px; margin: 0 auto;"
+          loop
+          autoplay>
+        </lottie-player>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+  <!-- SERVICES -->
+  <section id="services" style="background: linear-gradient(135deg, #1e293b, #0f1724); padding: 64px 0;">
+  <div class="container">
+    <h2 class="section-title reveal" style="color: #a78bfa;">Services</h2>
+    <p class="small-muted reveal" style="color: #cbd5e1;">Empowering your business with modern web solutions & design.</p>
+
+    <div class="row mt-4 g-4">
+
+      <div class="col-md-4 reveal">
+        <div class="service-card p-4 rounded-4 text-center" style="background: linear-gradient(145deg, #7c3aed, #4c1d95); box-shadow: 0 4px 15px rgba(124,58,237,0.6); color: #e0d7f5; transition: transform 0.3s ease;">
+          <i class="fas fa-laptop-code fa-4x mb-3 service-icon" style="transition: transform 0.3s ease;"></i>
+          <h4 class="mb-2">Custom Web Apps</h4>
+          <p>Create fast, scalable, and responsive apps tailored for your needs.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4 reveal">
+        <div class="service-card p-4 rounded-4 text-center" style="background: linear-gradient(145deg, #f97316, #b45309); box-shadow: 0 4px 15px rgba(249,115,22,0.6); color: #fff3e0; transition: transform 0.3s ease;">
+          <i class="fas fa-pencil-ruler fa-4x mb-3 service-icon" style="transition: transform 0.3s ease;"></i>
+          <h4 class="mb-2">UI/UX Design</h4>
+          <p>Intuitive designs focused on user engagement and delightful experience.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4 reveal">
+        <div class="service-card p-4 rounded-4 text-center" style="background: linear-gradient(145deg, #10b981, #065f46); box-shadow: 0 4px 15px rgba(16,185,129,0.6); color: #d9f99d; transition: transform 0.3s ease;">
+          <i class="fas fa-bullhorn fa-4x mb-3 service-icon" style="transition: transform 0.3s ease;"></i>
+          <h4 class="mb-2">Digital Marketing</h4>
+          <p>Boost your online presence with SEO, social media & targeted campaigns.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+  <!-- PROJECTS (Carousel slider) -->
+<section id="projects">
+  <div class="container">
+    <h2 class="section-title reveal">Projects</h2>
+    <p class="small-muted reveal">There are my projects : Swipe or use the arrows — each project has a GitHub link below it.</p>
+
+    <!-- Carousel -->
+    <div id="projectsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner">
+
+        <!-- CAROUSEL SLIDE 1 -->
+        <div class="carousel-item active">
+          <div class="row g-3">
+            <!-- Project Card 1 -->
+            <div class="col-md-4">
+              <div class="project-card reveal">
+                <img class="project-thumb" src="Screenshot (14).png" alt="Project 1">
+                <div class="proj-title">Skill Enhancement Dashboard</div>
+                <div class="small-muted">A web app where students found each and every language and courses under single roof to get skill and Development.</div>
+                <div class="proj-footer">
+                  <small class="small-muted">HTML • CSS • JS</small>
+                  <a class="btn btn-sm btn-github" href="https://github.com/Arshkareer/First-Frontend-Project-" target="_blank"><i class="fab fa-github me-2"></i>View</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Card 2 -->
+            <div class="col-md-4">
+              <div class="project-card reveal">
+                <img class="project-thumb" src="Screenshot (15).png" alt="Project 2">
+                <div class="proj-title">Teacher Availability Portal</div>
+                <div class="small-muted">A web app where students are able to find the teachers by simply entering their name to find the location that will help to find accurately and tends to save their time</div>
+                <div class="proj-footer">
+                  <small class="small-muted">HTML • CSS • JS • php • MySQL</small>
+                  <a class="btn btn-sm btn-github" href="https://github.com/Arshkareer/Teacher-Availability-Portal" target="_blank"><i class="fab fa-github me-2"></i>View</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Card 3 -->
+            <div class="col-md-4">
+              <div class="project-card reveal">
+                <img class="project-thumb" src="Screenshot (16).png" alt="Project 3">
+                <div class="proj-title">User Tracking System</div>
+                <div class="small-muted">A web app where all the activities are get tracked that have been performed by user even a single click .</div>
+                <div class="proj-footer">
+                  <small class="small-muted">HTML • CSS • JS • php • MySQL</small>
+                  <a class="btn btn-sm btn-github" href="https://github.com/Arshkareer/User-Tracking-System" target="_blank"><i class="fab fa-github me-2"></i>View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAROUSEL SLIDE 2 -->
+        <div class="carousel-item">
+          <div class="row g-3">
+            <!-- Project Card 4 -->
+            <div class="col-md-4">
+              <div class="project-card reveal">
+                <img class="project-thumb" src="https://images.unsplash.com/photo-1481277542470-605612bd2d61?q=80&w=1200&auto=format&fit=crop" alt="Project 4">
+                <div class="proj-title">Project Four</div>
+                <div class="small-muted">Landing pages & marketing funnels that convert visitors to leads.</div>
+                <div class="proj-footer">
+                  <small class="small-muted">Landing • Analytics</small>
+                  <a class="btn btn-sm btn-github" href="https://github.com/" target="_blank"><i class="fab fa-github me-2"></i>View</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Card 5 -->
+            <div class="col-md-4">
+              <div class="project-card reveal">
+                <img class="project-thumb" src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop" alt="Project 5">
+                <div class="proj-title">Project Five</div>
+                <div class="small-muted">Performance-first web app with optimized bundles and caching.</div>
+                <div class="proj-footer">
+                  <small class="small-muted">Performance</small>
+                  <a class="btn btn-sm btn-github" href="https://github.com/" target="_blank"><i class="fab fa-github me-2"></i>View</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Project Card 6 -->
+            <div class="col-md-4">
+              <div class="project-card reveal">
+                <img class="project-thumb" src="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1200&auto=format&fit=crop" alt="Project 6">
+                <div class="proj-title">Project Six</div>
+                <div class="small-muted">A B2B portal with role-based access and admin analytics.</div>
+                <div class="proj-footer">
+                  <small class="small-muted">Auth • Admin</small>
+                  <a class="btn btn-sm btn-github" href="https://github.com/" target="_blank"><i class="fab fa-github me-2"></i>View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1)"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#projectsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1)"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#projectsCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1)"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#projectsCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1)"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="container">
+    <h2 class="section-title reveal">Technical Certifications</h2>
+    <p class="small-muted reveal">Selected credentials and short descriptions.</p>
+
+    <div class="row mt-4">
+      <div class="col-md-4 reveal">
+        <div class="cert-card d-flex flex-column align-items-center" style="height: 100%;">
+          <img src="WhatsApp Image 2025-08-12 at 11.30.28_70218134.jpg" alt="Full Stack Web Development Certificate" class="img-fluid rounded mb-3" style="max-height: 180px; object-fit: contain; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+          <h5 class="text-center">ISO Certificate</h5>
+          <p class="small-muted text-center px-2">Actively participating in workshop on Emerging Technologies.</p>
+          <a href="WhatsApp Image 2025-08-12 at 11.30.28_70218134.jpg" download class="btn btn-outline-light btn-sm mt-auto">
+            <i class="fa fa-download me-2"></i>Download Certificate
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4 reveal">
+        <div class="cert-card d-flex flex-column align-items-center" style="height: 100%;">
+          <img src="WhatsApp Image 2025-08-12 at 11.43.36_f2abffea.jpg" alt="UX & UI Design Certificate" class="img-fluid rounded mb-3" style="max-height: 180px; object-fit: contain; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+          <h5 class="text-center">Hackathon Achievement</h5>
+          <p class="small-muted text-center px-2">Proudly secured the Third Position in the Hackathon organized by Guru Nanak Dev Engineering College. </p>
+          <a href="WhatsApp Image 2025-08-12 at 11.43.36_f2abffea.jpg" download class="btn btn-outline-light btn-sm mt-auto">
+            <i class="fa fa-download me-2"></i>Download Certificate
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4 reveal">
+        <div class="cert-card d-flex flex-column align-items-center" style="height: 100%;">
+          <img src="WhatsApp Image 2025-08-12 at 12.31.54_9e2df64c.jpg" alt="Cloud Deployment Basics Certificate" class="img-fluid rounded mb-3" style="max-height: 180px; object-fit: contain; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+          <h5 class="text-center">GNA Hackathon 3.0</h5>
+          <p class="small-muted text-center px-2">Successfully participated in GNA Hackathon 3.0 organised by GNA University</p>
+          <a href="WhatsApp Image 2025-08-12 at 12.31.54_9e2df64c.jpg" download class="btn btn-outline-light btn-sm mt-auto">
+            <i class="fa fa-download me-2"></i>Download Certificate
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="certs">
+  <div class="container">
+    <h2 class="section-title reveal">Extra Curricular Certifications</h2>
+    <p class="small-muted reveal">Selected credentials and short descriptions.</p>
+
+    <div class="row mt-4">
+      <div class="col-md-4 reveal">
+        <div class="cert-card d-flex flex-column align-items-center" style="height: 100%;">
+          <img src="WhatsApp Image 2025-08-12 at 19.17.04_7fbf360c.jpg" alt="Full Stack Web Development Certificate" class="img-fluid rounded mb-3" style="max-height: 180px; object-fit: contain; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+          <h5 class="text-center">Tech Trova:AI Edition Innovation</h5>
+          <p class="small-muted text-center px-2">Secured <strong>2nd Position</strong> in "Tech Trova: AI Edition Innovation" at ISTE Student Convention 2024.
+Awarded by Chitkara University for excellence in AI innovation.</p>
+          <a href="WhatsApp Image 2025-08-12 at 19.17.04_7fbf360c.jpg" download class="btn btn-outline-light btn-sm mt-auto">
+            <i class="fa fa-download me-2"></i>Download Certificate
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4 reveal">
+        <div class="cert-card d-flex flex-column align-items-center" style="height: 100%;">
+          <img src="WhatsApp Image 2025-08-12 at 19.23.42_53d46814.jpg" alt="UX & UI Design Certificate" class="img-fluid rounded mb-3" style="max-height: 180px; object-fit: contain; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+          <h5 class="text-center">Sports Achievement</h5>
+          <p class="small-muted text-center px-2">Secured <strong>2nd Position</strong>in Tug of War at Inter Year League 2025.
+Awarded by Guru Nanak Dev Engineering College for athletics excellence.</p>
+          <a href="WhatsApp Image 2025-08-12 at 19.23.42_53d46814.jpg" download class="btn btn-outline-light btn-sm mt-auto">
+            <i class="fa fa-download me-2"></i>Download Certificate
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-4 reveal">
+        <div class="cert-card d-flex flex-column align-items-center" style="height: 100%;">
+          <img src="WhatsApp Image 2025-08-12 at 19.28.13_fea31d67.jpg" alt="Cloud Deployment Basics Certificate" class="img-fluid rounded mb-3" style="max-height: 180px; object-fit: contain; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">
+          <h5 class="text-center">Tech Exhibition</h5>
+          <p class="small-muted text-center px-2">Presented "Concept of Acknowledgment" at Tech Exhibition 2025.
+Awarded Certificate of Participation by Guru Nanak Dev Engineering College.</p>
+          <a href="WhatsApp Image 2025-08-12 at 19.28.13_fea31d67.jpg" download class="btn btn-outline-light btn-sm mt-auto">
+            <i class="fa fa-download me-2"></i>Download Certificate
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <section id="contact" style="
+  background: linear-gradient(135deg, #1e1e2f 0%, #0f1724 100%);
+  color: #e6eef8;
+  padding: 64px 0;
+  font-family: 'Montserrat', sans-serif;
+">
+  <div class="container d-flex flex-column flex-lg-row justify-content-between align-items-center gap-5">
+    
+    <!-- Start a Project Call-to-Action -->
+    <div style="flex: 1; max-width: 600px;">
+      <h2 style="font-weight: 900; font-size: clamp(2rem, 5vw, 2.8rem); margin-bottom: 0.4rem; letter-spacing: 1px; color: #7c3aed;">
+        Let’s Build Something Amazing
+      </h2>
+      <p style="font-size: 1.15rem; opacity: 0.8; line-height: 1.5; margin-bottom: 1.5rem;">
+        Got a project idea? Share it with me and I’ll send a fast, detailed proposal with timeline, cost, and next steps.
+      </p>
+      <a href="mailto:arshkareer2005@gmail.com" style="
+        background: #7c3aed;
+        color: white;
+        font-weight: 700;
+        font-size: 1.25rem;
+        padding: 14px 36px;
+        border-radius: 50px;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(124, 58, 237, 0.7);
+        display: inline-block;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      " onmouseover="this.style.background='#5a23b6'; this.style.boxShadow='0 10px 30px rgba(90, 35, 182, 0.8)';" onmouseout="this.style.background='#7c3aed'; this.style.boxShadow='0 8px 20px rgba(124, 58, 237, 0.7)';">
+        Get In Touch
+      </a>
+    </div>
+
+    <!-- Contact Info + Social -->
+    <div style="flex: 1; max-width: 420px;">
+      <div style="background: rgba(124, 58, 237, 0.1); border-radius: 12px; padding: 28px;">
+        <h3 style="color: #d1c4e9; font-weight: 700; margin-bottom: 1rem;">Contact Details</h3>
+        <p style="margin-bottom: 0.3rem;">
+          <strong>Email:</strong> <a href="mailto:arshkareer2005@gmail.com" style="color: #cbb8ff; text-decoration: underline;">arshkareer2005@gmail.com</a>
+        </p>
+        <p style="margin-bottom: 1rem;">
+          <strong>Phone:</strong> +91-9115926692
+        </p>
+        <h3 style="color: #d1c4e9; font-weight: 700; margin-bottom: 1rem;">Follow Me</h3>
+        <div style="display: flex; gap: 20px; font-size: 1.5rem;">
+          <a href="https://www.linkedin.com/in/arshdeep-singh-692539296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" style="color: #cbb8ff;" title="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/deeparsh_5911?igsh=MXBueDNzM3F0aWVuMQ==" style="color: #cbb8ff;" title="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://github.com/Arshkareer" style="color: #cbb8ff;" title="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+          <a href="mailto:arshkareer2005@gmail.com" style="color: #cbb8ff;" title="Email"><i class="fa fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+
+  <!-- FOOTER -->
+  <footer style="background: #0b1220; color: #94a3b8; padding: 24px 0; border-top: 1px solid rgba(255,255,255,0.1);">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+    <div class="footer-brand" style="font-weight: 700; font-size: 1.15rem; color: var(--accent); font-family: 'Montserrat', sans-serif;">
+      AR<span style="color:#ffd166;">$</span>H
+    </div>
+
+    <ul class="footer-nav list-unstyled d-flex gap-4 mb-0" style="font-size: 0.95rem;">
+      <li><a href="#home" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Home</a></li>
+      <li><a href="#services" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Services</a></li>
+      <li><a href="#projects" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Projects</a></li>
+      <li><a href="#certs" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Certifications</a></li>
+      <li><a href="#contact" style="color: inherit; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='inherit'">Contact</a></li>
+    </ul>
+
+    <div class="footer-social d-flex gap-3" style="font-size: 1.3rem;">
+      <a href="https://www.linkedin.com/in/arshdeep-singh-692539296?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" aria-label="LinkedIn" style="color: #94a3b8; transition: color 0.3s;"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.instagram.com/deeparsh_5911?igsh=MXBueDNzM3F0aWVuMQ==" target="_blank" aria-label="Instagram" style="color: #94a3b8; transition: color 0.3s;"><i class="fab fa-instagram"></i></a>
+      <a href="https://github.com/Arshkareer" target="_blank" aria-label="GitHub" style="color: #94a3b8; transition: color 0.3s;"><i class="fab fa-github"></i></a>
+      <a href="mailto:arshkareer2005@gmail.com" aria-label="Email" style="color: #94a3b8; transition: color 0.3s;"><i class="fa fa-envelope"></i></a>
+    </div>
+  </div>
+
+  <div class="container text-center mt-3" style="font-size: 0.85rem; color: #64748b; font-family: 'Poppins', sans-serif;">
+    &copy; 2025 AR<span style="color:#ffd166;">$</span>H. Built with ❤️ and Bootstrap.
+  </div>
+</footer>
+
+
+  <!-- Bootstrap JS & Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Replace these anchor hrefs with your real social links
+   // document.getElementById('lnkLinkedIn').href = "https://www.linkedin.com/";
+   // document.getElementById('lnkInsta').href = "https://www.instagram.com/";
+   // document.getElementById('lnkGithub').href = "https://github.com/";
+   // document.getElementById('lnkMail').href = "mailto:arshkareer2005@gmail.com";
+   // document.getElementById('lnkLinkedIn2').href = "https://www.linkedin.com/";
+   // document.getElementById('lnkInsta2').href = "https://www.instagram.com/";
+   // document.getElementById('lnkGithub2').href = "https://github.com/";
+
+    // IntersectionObserver for reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+    // Optional: keyboard control for carousel (left/right arrows)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        const prevBtn = document.querySelector('#projectsCarousel .carousel-control-prev');
+        prevBtn && prevBtn.click();
+      } else if (e.key === 'ArrowRight') {
+        const nextBtn = document.querySelector('#projectsCarousel .carousel-control-next');
+        nextBtn && nextBtn.click();
+      }
+    });
+
+    // Small tweak: make navbar links close the collapse on mobile after click
+    document.querySelectorAll('.navbar .nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('.navbar-collapse');
+        if (nav.classList.contains('show')) {
+          new bootstrap.Collapse(nav).hide();
+        }
+      });
+    });
+  </script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</body>
+</html>
