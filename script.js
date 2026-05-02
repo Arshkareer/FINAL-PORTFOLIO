@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     renderCertificates();
     setupEventListeners();
     updateFirebaseStatus();
+    setupRealtimeListeners();
 });
 
 // Setup Event Listeners
@@ -930,4 +931,35 @@ function updateFirebaseStatus() {
         statusEl.style.border = '1px solid rgba(245, 158, 11, 0.3)';
         statusEl.style.color = '#f59e0b';
     }
+}
+
+// Setup Real-time Firebase Listeners
+function setupRealtimeListeners() {
+    if (!isFirebaseEnabled) return;
+    
+    console.log('🔄 Setting up real-time Firebase listeners...');
+    
+    // Listen for project changes
+    db.collection('projects').onSnapshot((snapshot) => {
+        console.log('🔔 Projects updated in Firebase!');
+        projects = snapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+        projects.sort((a, b) => b.id - a.id); // Sort by ID descending
+        renderProjects();
+        renderExistingProjects();
+        updateDataCounts();
+    }, (error) => {
+        console.error('Error listening to projects:', error);
+    });
+    
+    // Listen for certificate changes
+    db.collection('certificates').onSnapshot((snapshot) => {
+        console.log('🔔 Certificates updated in Firebase!');
+        certificates = snapshot.docs.map(doc => ({ ...doc.data(), firebaseId: doc.id }));
+        certificates.sort((a, b) => b.id - a.id); // Sort by ID descending
+        renderCertificates();
+        renderExistingCertificates();
+        updateDataCounts();
+    }, (error) => {
+        console.error('Error listening to certificates:', error);
+    });
 }
