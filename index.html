@@ -36,10 +36,15 @@
         <div class="admin-tabs">
             <button class="tab-btn active" data-tab="projects">Manage Projects</button>
             <button class="tab-btn" data-tab="certificates">Manage Certificates</button>
+            <button class="tab-btn" data-tab="resume">Update Resume</button>
         </div>
 
         <!-- Projects Tab -->
         <div id="projects-tab" class="tab-content active">
+            <div style="background: rgba(255, 209, 102, 0.1); border-left: 4px solid var(--accent-yellow); padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+                <p style="color: var(--accent-yellow); font-weight: 600; margin-bottom: 5px;">📱 Important Note:</p>
+                <p style="color: var(--text-secondary); font-size: 14px;">Projects are stored locally in your browser. They won't sync between devices. Add projects on each device separately, or use the same browser on all devices.</p>
+            </div>
             <h3>Add New Project</h3>
             <form id="addProjectForm">
                 <input type="text" name="title" placeholder="Project Title" required>
@@ -67,6 +72,18 @@
             
             <h3 style="margin-top: 40px;">Existing Certificates</h3>
             <div id="existingCertificates" class="existing-items"></div>
+        </div>
+
+        <!-- Resume Tab -->
+        <div id="resume-tab" class="tab-content">
+            <h3>Update Resume</h3>
+            <div style="background: var(--bg-dark); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                <p style="color: var(--text-secondary); margin-bottom: 15px;">Current Resume: <a href="resume.pdf" target="_blank" style="color: var(--accent-yellow);">View Current Resume</a></p>
+            </div>
+            <form id="updateResumeForm">
+                <input type="file" name="resumeFile" accept=".pdf" required>
+                <button type="submit">Update Resume</button>
+            </form>
         </div>
     </div>
 
@@ -106,7 +123,7 @@
                     </div>
                     <div class="hero-buttons">
                         <a href="#contact" class="btn btn-primary">Hire Me</a>
-                        <a href="resume.pdf" download class="btn btn-secondary">Download Resume</a>
+                        <a href="resume.pdf" download class="btn btn-secondary" id="resumeDownloadBtn">Download Resume</a>
                     </div>
                 </div>
                 <div class="hero-animation">

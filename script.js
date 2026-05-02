@@ -97,6 +97,9 @@ function setupEventListeners() {
     // Add Certificate Form
     document.getElementById('addCertForm').addEventListener('submit', handleAddCertificate);
     
+    // Update Resume Form
+    document.getElementById('updateResumeForm').addEventListener('submit', handleUpdateResume);
+    
     // Smooth Scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -221,6 +224,29 @@ async function handleAddCertificate(e) {
     };
     
     reader.readAsDataURL(certImage);
+}
+
+// Handle Update Resume
+async function handleUpdateResume(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const resumeFile = formData.get('resumeFile');
+    
+    if (!resumeFile || resumeFile.type !== 'application/pdf') {
+        alert('Please upload a valid PDF file!');
+        return;
+    }
+    
+    // Convert PDF to base64 and store in localStorage
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        localStorage.setItem('portfolioResume', event.target.result);
+        alert('Resume updated successfully! Note: Download the resume link will use the new file.');
+        e.target.reset();
+    };
+    
+    reader.readAsDataURL(resumeFile);
 }
 
 // Render Existing Projects in Admin Panel
@@ -518,6 +544,15 @@ function loadData() {
     
     if (savedCertificates) {
         certificates = JSON.parse(savedCertificates);
+    }
+    
+    // Load custom resume if available
+    const savedResume = localStorage.getItem('portfolioResume');
+    if (savedResume) {
+        const resumeBtn = document.getElementById('resumeDownloadBtn');
+        if (resumeBtn) {
+            resumeBtn.href = savedResume;
+        }
     }
 }
 
