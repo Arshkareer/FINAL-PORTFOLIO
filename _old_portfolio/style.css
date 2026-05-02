@@ -1320,6 +1320,11 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    /* Container padding */
+    .container {
+        padding: 0 15px;
+    }
+    
     /* Fix admin button position on mobile */
     .admin-btn {
         top: 15px;
@@ -1340,26 +1345,128 @@ body {
         display: none;
     }
     
+    /* Navbar */
+    .navbar {
+        padding: 15px 0;
+    }
+    
+    .nav-brand {
+        font-size: 24px;
+    }
+    
     /* Reduce hero section padding on mobile */
     .hero {
-        padding: 100px 0 40px;
+        padding: 90px 0 30px;
         min-height: auto;
     }
     
     /* Reduce stats margin */
     .stats {
         margin-top: 30px;
+        gap: 15px;
+    }
+    
+    .stat-item {
+        padding: 20px 15px;
+    }
+    
+    .stat-item h3 {
+        font-size: 28px;
+    }
+    
+    .stat-item p {
+        font-size: 12px;
+    }
+    
+    /* Section titles */
+    .section-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+    
+    .section-subtitle {
+        font-size: 16px;
+        margin-bottom: 40px;
     }
     
     /* Reduce about section padding */
     .about-section {
         padding: 40px 0;
     }
+    
+    /* Services section */
+    .services-section {
+        padding: 40px 0;
+    }
+    
+    .service-card {
+        padding: 30px 20px;
+    }
+    
+    .service-icon {
+        font-size: 40px;
+    }
+    
+    .service-card h3 {
+        font-size: 20px;
+    }
+    
+    /* Projects section */
+    .projects-section {
+        padding: 40px 0;
+    }
+    
+    /* Certificates section */
+    .certificates-section {
+        padding: 40px 0;
+    }
+    
+    .cert-card {
+        padding: 20px;
+    }
+    
+    .cert-image {
+        height: 150px;
+    }
+    
+    /* Contact section */
+    .contact-section {
+        padding: 40px 0;
+    }
+    
+    .contact-text h2 {
+        font-size: 32px;
+    }
+    
+    .contact-text p {
+        font-size: 16px;
+    }
+    
+    .contact-info {
+        padding: 30px 20px;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 30px 0;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
 
     .hero-content,
     .about-content,
     .contact-content {
         grid-template-columns: 1fr;
+        gap: 40px;
     }
     
     .hero-content {
@@ -1372,27 +1479,47 @@ body {
     
     .hero-title {
         justify-content: center;
-        font-size: 36px;
+        font-size: 32px;
+    }
+    
+    .hero-subtitle {
+        font-size: 20px;
+    }
+    
+    .hero-tagline {
+        font-size: 16px;
     }
     
     .wave-emoji {
-        font-size: 36px;
+        font-size: 32px;
     }
     
     .hero-animation {
         order: -1;
-        max-width: 300px;
+        max-width: 280px;
         margin: 0 auto;
+    }
+    
+    .code-window {
+        max-width: 100%;
+    }
+    
+    .code-content {
+        padding: 15px;
+        font-size: 12px;
     }
     
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 15px;
     }
     
     .hero-buttons .btn {
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
+        padding: 12px 25px;
+        font-size: 14px;
     }
 
     .stats {
@@ -1479,5 +1606,45 @@ body {
     .about-profile-pic {
         width: 70%;
         height: 70%;
+    }
+    
+    /* Admin Panel Mobile */
+    .admin-panel {
+        padding: 15px;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .admin-header h2 {
+        font-size: 24px;
+    }
+    
+    .admin-tabs {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .tab-content {
+        padding: 20px 15px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 30px 20px;
+        margin: 20% auto;
+    }
+    
+    .edit-modal-content {
+        width: 95%;
+        padding: 30px 20px;
     }
 }
