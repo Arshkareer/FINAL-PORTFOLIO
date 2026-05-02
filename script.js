@@ -372,15 +372,22 @@ async function syncLocalToFirebase() {
             }
         }
         
-        // Reload data
+        // Reload data from Firebase
         await loadData();
+        
+        // Re-render everything
         renderProjects();
         renderCertificates();
         renderExistingProjects();
         renderExistingCertificates();
         updateDataCounts();
         
-        alert(`✅ Sync complete!\n\nUploaded:\n- ${uploadedProjects} projects\n- ${uploadedCerts} certificates\n\nAll devices will now show this data!`);
+        alert(`✅ Sync complete!\n\nUploaded:\n- ${uploadedProjects} projects\n- ${uploadedCerts} certificates\n\nAll devices will now show this data!\n\nRefreshing page...`);
+        
+        // Refresh the page to ensure everything is updated
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     } catch (error) {
         console.error('Error syncing to Firebase:', error);
         alert('Error syncing data. Please try again.');
