@@ -3,12 +3,12 @@ const ADMIN_PASSWORD = "arsh@2025";
 
 // Firebase Configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBxC8F9vZ3QmK5xYwN2pL7jR4tH6sU8vW0",
+    apiKey: "AIzaSyDHU3mTL-3O4OW5FLYUp4vUNy2fAfRELGs",
     authDomain: "arsh-portfolio-sync.firebaseapp.com",
     projectId: "arsh-portfolio-sync",
-    storageBucket: "arsh-portfolio-sync.appspot.com",
-    messagingSenderId: "123456789012",
-    appId: "1:123456789012:web:abcdef1234567890"
+    storageBucket: "arsh-portfolio-sync.firebasestorage.app",
+    messagingSenderId: "208403868224",
+    appId: "1:208403868224:web:8d3d220c4d980262d70da5"
 };
 
 // Initialize Firebase
