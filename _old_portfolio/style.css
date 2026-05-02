@@ -283,6 +283,36 @@ body {
     transition: all 0.3s;
 }
 
+/* Mobile Menu Styles */
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: var(--bg-card);
+        width: 100%;
+        text-align: center;
+        transition: left 0.3s ease;
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.5);
+        padding: 20px 0;
+        gap: 0;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-menu li {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-menu li:last-child {
+        border-bottom: none;
+    }
+}
+
 /* Hero Section */
 .hero {
     padding: 150px 0 80px;
@@ -1288,8 +1318,20 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    /* Fix admin button position on mobile */
+    .admin-btn {
+        top: 15px;
+        right: 70px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+        z-index: 1001;
+    }
+    
     .hamburger {
         display: flex;
+        position: relative;
+        z-index: 1000;
     }
 
     .nav-menu {
